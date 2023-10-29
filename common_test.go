@@ -8,6 +8,8 @@ import (
 	"testing"
 
 	"github.com/koykov/decoder"
+	"github.com/koykov/inspector/testobj"
+	"github.com/koykov/inspector/testobj_ins"
 )
 
 type stage struct {
@@ -24,17 +26,17 @@ func init() {
 
 func registerTestStages(dir string) {
 	_ = filepath.Walk("testdata/"+dir, func(path string, info os.FileInfo, err error) error {
-		if filepath.Ext(path) == ".tpl" {
+		if filepath.Ext(path) == ".dec" {
 			st := stage{}
-			st.key = strings.Replace(filepath.Base(path), ".tpl", "", 1)
+			st.key = strings.Replace(filepath.Base(path), ".dec", "", 1)
 
 			st.origin, _ = os.ReadFile(path)
 			ruleset, _ := decoder.Parse(st.origin)
 
-			st.source, _ = os.ReadFile(strings.Replace(path, ".tpl", ".source.txt", 1))
+			st.source, _ = os.ReadFile(strings.Replace(path, ".dec", ".source.txt", 1))
 			st.source = bytes.Trim(st.source, "\n")
 
-			st.expect, _ = os.ReadFile(strings.Replace(path, ".tpl", ".expect.txt", 1))
+			st.expect, _ = os.ReadFile(strings.Replace(path, ".dec", ".expect.txt", 1))
 			st.expect = bytes.Trim(st.expect, "\n")
 			stages = append(stages, st)
 
@@ -67,14 +69,16 @@ func testStage(t *testing.T) {
 		return
 	}
 	ctx := decoder.NewCtx()
+	var obj testobj.TestObject
+	ctx.Set("obj", &obj, testobj_ins.TestObjectInspector{})
 	ctx.SetStatic("source", st.source)
 	err := decoder.Decode(key, ctx)
 	if err != nil {
 		t.Error(err)
 	}
-	// if !bytes.Equal(r, st.expect) {
-	// 	t.FailNow()
-	// }
+	if !bytes.Equal(obj.Name, st.expect) {
+		t.FailNow()
+	}
 }
 
 func benchStage(b *testing.B) {

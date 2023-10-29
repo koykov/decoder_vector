@@ -1,6 +1,9 @@
 package decoder_vector
 
-import "github.com/koykov/decoder"
+import (
+	"github.com/koykov/decoder"
+	_ "github.com/koykov/vector_inspector"
+)
 
 func init() {
 	_ = decoder.RegisterPool("jsonvector", &ipool{fmtJSON})
