@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/koykov/bytebuf v1.0.4
-	github.com/koykov/decoder v1.1.1-0.20231102214548-39178cf8881e
+	github.com/koykov/decoder v1.1.0
 	github.com/koykov/halvector v1.0.5
 	github.com/koykov/inspector v1.4.4
 	github.com/koykov/jsonvector v1.2.2
