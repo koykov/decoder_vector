@@ -1,0 +1,2 @@
+ctx.data = vector::parseXML(source).(vector)
+obj.Name = data.x.y.z
