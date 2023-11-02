@@ -12,8 +12,8 @@ func TestParser(t *testing.T) {
 
 func BenchmarkParser(b *testing.B) {
 	b.Run("json", benchStage)
-	b.Run("xml", benchStage)
-	b.Run("yaml", benchStage)
-	b.Run("url", benchStage)
-	b.Run("hal", benchStage)
+	// b.Run("xml", benchStage)
+	// b.Run("yaml", benchStage)
+	// b.Run("url", benchStage)
+	// b.Run("hal", benchStage)
 }

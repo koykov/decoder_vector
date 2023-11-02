@@ -92,7 +92,7 @@ func benchStage(b *testing.B) {
 	var buf bytes.Buffer
 	for i := 0; i < b.N; i++ {
 		ctx := decoder.AcquireCtx()
-		ctx.SetStatic("source", st.source)
+		ctx.SetStatic("source", &st.source)
 		_ = decoder.Decode("json", ctx)
 		decoder.ReleaseCtx(ctx)
 		buf.Reset()

@@ -1,2 +1,2 @@
-ctx.data = vector::parseJSON(source) as vector
+ctx.data = vector::parseJSON(source).(vector)
 obj.Name = data.x.y.z
