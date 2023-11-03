@@ -1,0 +1,2 @@
+ctx.data = vector::parseHAL(source).(vector)
+obj.Name = data.0.code

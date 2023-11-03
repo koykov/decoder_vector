@@ -1,0 +1,2 @@
+ctx.data = vector::parseURL(source).(vector)
+obj.Name = data.query.q
