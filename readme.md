@@ -6,18 +6,32 @@ features to use in [dyntpl](https://github.com/koykov/decoder).
 ### Usage
 
 ```go
-import _ "github.com/koykov/decoder_vector"
+package main
 
-const dec = `ctx.data = vector::parseJSON(source) as vector
-dst.Name = data.name`
+import (
+	"github.com/koykov/decoder"
+	"github.com/koykov/inspector/testobj"
+	"github.com/koykov/inspector/testobj_ins"
 
-const source = `{"name":"foobar"}`
+	_ "github.com/koykov/decoder_vector"   // register vector bindings
+	_ "github.com/koykov/vector_inspector" // register vector inspector
+)
+
+const (
+	dec = `ctx.data = vector::parseJSON(source).(vector)
+obj.Name = data.x.y.z`
+	json = `{"x":{"y":{"z":"foobar"}}}`
+)
 
 func main() {
-	ctx := decoder.AcquireCtx()
-	ctx.SetStatic("source", source)
-	ctx.Set("dst", dstObj, ObjInspector{})
-	decoder.Decode("example", ctx)
-	println(dstObj.Name) // foobar
+	ruleset, _ := decoder.Parse([]byte(dec))
+	decoder.RegisterDecoder("example", ruleset)
+	ctx := decoder.NewCtx()
+	var obj testobj.TestObject
+	ctx.SetStatic("source", json)
+	ctx.Set("obj", &obj, testobj_ins.TestObjectInspector{})
+	_ = decoder.Decode("example", ctx)
+	println(string(obj.Name)) // output: foobar
 }
+
 ```
