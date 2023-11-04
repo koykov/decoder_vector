@@ -1,0 +1,2 @@
+ctx.data = source|vector::parseJSON().(vector)
+obj.Name = data.x.y|vector::marshal()
