@@ -1,7 +1,6 @@
 package decoder_vector
 
 import (
-	"github.com/koykov/bytebuf"
 	"github.com/koykov/decoder"
 	"github.com/koykov/vector"
 )
@@ -64,8 +63,8 @@ func modMarshal(ctx *decoder.Ctx, buf *any, val any, args []any) error {
 	}
 
 	ctx.BufAcc.StakeOut()
-	w := bytebuf.AccBufWriter{AccBuf: &ctx.BufAcc}
-	_ = root.Marshal(&w)
+	w := ctx.BufAcc.ToWriter()
+	_ = root.Marshal(w)
 	*buf = ctx.BufAcc.StakedBytes()
 	return nil
 }
