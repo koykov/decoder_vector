@@ -31,7 +31,10 @@ func registerTestStages(dir string) {
 			st.key = strings.Replace(filepath.Base(path), ".dec", "", 1)
 
 			st.origin, _ = os.ReadFile(path)
-			ruleset, _ := decoder.Parse(st.origin)
+			ruleset, err := decoder.Parse(st.origin)
+			if err != nil {
+				println(err.Error())
+			}
 
 			st.source, _ = os.ReadFile(strings.Replace(path, ".dec", ".source.txt", 1))
 			st.source = bytes.Trim(st.source, "\n")
