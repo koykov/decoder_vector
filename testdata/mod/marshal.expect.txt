@@ -1,1 +1,1 @@
-{"z": "foobar"}
+{"z":"foobar"}
