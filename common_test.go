@@ -43,7 +43,7 @@ func registerTestStages(dir string) {
 			st.expect = bytes.Trim(st.expect, "\n")
 			stages = append(stages, st)
 
-			decoder.RegisterDecoder(st.key, ruleset)
+			decoder.RegisterDecoderKey(st.key, ruleset)
 		}
 		return nil
 	})
